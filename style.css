@@ -67,7 +67,8 @@ body {
 }
 
 /* ===== IMAGES RESPONSIVE ===== */
-img {
+/* Exclure le logo des règles générales */
+img:not(.logo-img) {
     max-width: 100%;
     height: auto;
     display: block;
@@ -84,6 +85,7 @@ img[loading="lazy"].loaded {
 }
 
 /* Images dans les cards - FORCER L'AFFICHAGE */
+/* Exclure le logo des règles générales */
 .feature-image img,
 .service-image,
 .step-image img,
@@ -95,6 +97,15 @@ img[loading="lazy"].loaded {
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
+}
+
+/* Exclure le logo des règles générales d'images */
+.logo-img {
+    width: 50px !important;
+    height: 50px !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    object-fit: cover;
 }
 
 /* Conteneurs d'images - FORCER LES DIMENSIONS */
@@ -281,18 +292,18 @@ img[loading="lazy"].loaded {
     align-items: center;
     gap: 0.75rem;
     cursor: pointer;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    transform-style: preserve-3d;
-    perspective: 1000px;
+    transition: transform 0.3s ease;
 }
 
 .logo:hover {
-    transform: scale(1.05) translateZ(20px) rotateY(-5deg);
+    transform: scale(1.05);
 }
 
 .logo-img {
     height: 50px;
     width: 50px;
+    max-width: 50px;
+    max-height: 50px;
     object-fit: cover;
     border-radius: 8px;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -303,7 +314,7 @@ img[loading="lazy"].loaded {
 }
 
 .logo:hover .logo-img {
-    transform: scale(1.15) translateZ(30px) rotateY(10deg);
+    transform: scale(1.1) translateZ(20px) rotateY(5deg);
     box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4), 0 0 0 2px rgba(37, 99, 235, 0.1);
 }
 
@@ -317,6 +328,7 @@ img[loading="lazy"].loaded {
     background-clip: text;
     animation: gradient-shift 3s ease infinite;
     transition: transform 0.3s ease;
+    line-height: 1;
 }
 
 .logo:hover .logo-text {
