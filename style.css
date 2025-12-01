@@ -1932,42 +1932,49 @@ img[loading="lazy"].loaded {
         font-size: 1.35rem;
     }
 
-    /* Hero Section */
+    /* Hero Section - Garder la disposition en grille sur petits écrans */
     .hero {
         padding-top: 70px;
         min-height: auto;
         padding-bottom: 3rem;
+        background-attachment: scroll; /* Améliore les performances sur mobile */
     }
 
     .hero .container {
         grid-template-columns: 1fr;
-        gap: 2rem;
+        gap: 2.5rem;
     }
 
     .hero-title {
-        font-size: 2rem;
+        font-size: 2.25rem;
         line-height: 1.2;
     }
 
     .hero-subtitle {
-        font-size: 1rem;
+        font-size: 1.1rem;
         margin-bottom: 1.5rem;
     }
 
     .hero-buttons {
-        flex-direction: column;
-        gap: 0.75rem;
+        flex-direction: row;
+        gap: 1rem;
+        flex-wrap: wrap;
     }
 
     .hero-main-image {
         max-width: 100%;
-        margin-top: 1.5rem;
+        max-height: 400px;
+        width: 100%;
+        height: auto;
+        margin-top: 0;
+        object-fit: cover;
+        border-radius: 20px;
     }
 
     /* Sections */
     .section-title {
         font-size: 2rem;
-        margin-bottom: 2rem;
+        margin-bottom: 2.5rem;
     }
 
     .page-title {
@@ -1978,18 +1985,35 @@ img[loading="lazy"].loaded {
         font-size: 1.1rem;
     }
 
-    /* Features */
+    /* Features - Garder 2 colonnes sur petits écrans */
     .features-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
         gap: 1.5rem;
     }
 
     .feature-card {
-        margin: 0 auto;
+        margin: 0;
         max-width: 100%;
     }
 
-    /* Services */
+    .feature-image {
+        height: 180px;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .feature-card h3 {
+        font-size: 1.25rem;
+        padding: 0 1.5rem;
+        margin: 1.25rem 0 0.75rem;
+    }
+
+    .feature-card p {
+        padding: 0 1.5rem 1.5rem;
+        font-size: 0.9rem;
+    }
+
+    /* Services - Garder 1 colonne mais avec meilleure présentation */
     .services-grid {
         grid-template-columns: 1fr;
         gap: 2rem;
@@ -1999,18 +2023,28 @@ img[loading="lazy"].loaded {
         max-width: 100%;
     }
 
-    /* Stats */
+    .service-image-wrapper {
+        height: 220px;
+    }
+
+    .service-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Stats - Garder 2 colonnes */
     .stats {
-        padding: 3rem 0;
+        padding: 4rem 0;
     }
 
     .stats-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 1.5rem;
+        gap: 2rem;
     }
 
     .stat-number {
-        font-size: 2.5rem;
+        font-size: 2.75rem;
     }
 
     .stat-label {
@@ -2019,17 +2053,25 @@ img[loading="lazy"].loaded {
 
     /* Process */
     .process {
-        padding: 3rem 0;
+        padding: 4rem 0;
     }
 
     .step {
         max-width: 100%;
         padding: 1.5rem;
+        min-width: auto;
+    }
+
+    .step-image {
+        max-width: 180px;
+        height: 180px;
+        width: 100%;
+        object-fit: cover;
     }
 
     /* Contact */
     .contact-section {
-        padding: 3rem 0;
+        padding: 4rem 0;
     }
 
     .contact-form-wrapper {
@@ -2037,9 +2079,9 @@ img[loading="lazy"].loaded {
     }
 
     .contact-item {
-        flex-direction: column;
-        text-align: center;
-        gap: 1rem;
+        flex-direction: row;
+        text-align: left;
+        gap: 1.5rem;
     }
 
     /* About */
@@ -2047,12 +2089,18 @@ img[loading="lazy"].loaded {
     .values-section,
     .guarantees-section,
     .team-section {
-        padding: 3rem 0;
+        padding: 4rem 0;
     }
 
     .values-grid,
     .guarantees-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+
+    .value-card,
+    .guarantee-card {
+        padding: 2rem 1.5rem;
     }
 
     /* Footer */
@@ -2061,14 +2109,14 @@ img[loading="lazy"].loaded {
     }
 
     .footer-content {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
         gap: 2rem;
-        text-align: center;
+        text-align: left;
     }
 
     /* CTA */
     .cta {
-        padding: 3rem 0;
+        padding: 4rem 0;
     }
 
     .cta-content h2 {
@@ -2081,12 +2129,14 @@ img[loading="lazy"].loaded {
 
     /* Additional Info */
     .info-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
     }
 
     /* FAQ */
     .faq-grid {
         grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
 
     /* Map */
@@ -2123,29 +2173,31 @@ img[loading="lazy"].loaded {
         height: 2px;
     }
 
-    /* Hero */
+    /* Hero - Améliorer l'affichage des images */
     .hero {
         padding-top: 65px;
-        padding-bottom: 2rem;
+        padding-bottom: 2.5rem;
     }
 
     .hero-title {
-        font-size: 1.75rem;
+        font-size: 2rem;
         margin-bottom: 1rem;
     }
 
     .hero-subtitle {
-        font-size: 0.95rem;
-        margin-bottom: 1.25rem;
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
     }
 
     .hero-buttons {
-        flex-direction: column;
-        width: 100%;
+        flex-direction: row;
+        gap: 0.75rem;
+        flex-wrap: wrap;
     }
 
     .btn {
-        width: 100%;
+        flex: 1;
+        min-width: 140px;
         text-align: center;
         padding: 0.875rem 1.5rem;
         font-size: 0.95rem;
@@ -2160,7 +2212,10 @@ img[loading="lazy"].loaded {
         max-width: 100%;
         width: 100%;
         height: auto;
-        max-height: 300px;
+        max-height: 350px;
+        min-height: 250px;
+        object-fit: cover;
+        border-radius: 16px;
     }
 
     /* Sections */
@@ -2182,42 +2237,46 @@ img[loading="lazy"].loaded {
         margin-top: 65px;
     }
 
-    /* Features */
+    /* Features - Garder 2 colonnes même sur très petits écrans */
     .features {
         padding: 3rem 0;
     }
 
     .features-grid {
-        grid-template-columns: 1fr;
-        gap: 1.25rem;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
     }
 
     .feature-image {
-        height: 180px;
+        height: 160px;
+        width: 100%;
+        object-fit: cover;
     }
 
     .feature-card h3 {
-        font-size: 1.25rem;
-        padding: 0 1.5rem;
+        font-size: 1.1rem;
+        padding: 0 1rem;
+        margin: 1rem 0 0.5rem;
     }
 
     .feature-card p {
-        padding: 0 1.5rem 1.5rem;
-        font-size: 0.9rem;
+        padding: 0 1rem 1.25rem;
+        font-size: 0.85rem;
+        line-height: 1.5;
     }
 
-    /* Stats */
+    /* Stats - Garder 2 colonnes */
     .stats {
-        padding: 2.5rem 0;
+        padding: 3rem 0;
     }
 
     .stats-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
         gap: 1.5rem;
     }
 
     .stat-number {
-        font-size: 2.25rem;
+        font-size: 2.5rem;
     }
 
     .stat-label {
@@ -2235,8 +2294,10 @@ img[loading="lazy"].loaded {
     }
 
     .step-image {
-        max-width: 120px;
-        height: 120px;
+        max-width: 150px;
+        height: 150px;
+        width: 100%;
+        object-fit: cover;
     }
 
     .step-number {
@@ -2260,11 +2321,17 @@ img[loading="lazy"].loaded {
     }
 
     .service-image-wrapper {
-        height: 180px;
+        height: 200px;
+    }
+
+    .service-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 
     .service-card-large-content {
-        padding: 1.5rem;
+        padding: 1.75rem;
     }
 
     .service-card-large h2 {
@@ -2334,14 +2401,20 @@ img[loading="lazy"].loaded {
         font-size: 1rem;
     }
 
+    .values-grid,
+    .guarantees-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
     .value-card,
     .guarantee-card {
-        padding: 2rem 1.5rem;
+        padding: 1.75rem 1.25rem;
     }
 
     .value-icon,
     .guarantee-icon {
-        font-size: 2.5rem;
+        font-size: 2.25rem;
     }
 
     .team-text h3 {
