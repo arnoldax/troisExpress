@@ -123,7 +123,7 @@ img[loading="lazy"].loaded {
     /* Forcer l'affichage de toutes les images */
     .feature-image img,
     .service-image-wrapper img,
-    .service-image,
+    img.service-image,
     .step-image img,
     .hero-main-image,
     img[class*="image"],
@@ -137,33 +137,99 @@ img[loading="lazy"].loaded {
         object-fit: cover !important;
     }
 
-    /* Images avec hauteur fixe */
+    /* Images avec hauteur fixe - FORCER L'AFFICHAGE */
+    .feature-image {
+        height: 180px !important;
+        min-height: 180px !important;
+        background: var(--bg-light) !important;
+        display: block !important;
+        visibility: visible !important;
+    }
+
     .feature-image img {
         height: 180px !important;
+        min-height: 180px !important;
+        width: 100% !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
 
     .service-image-wrapper img,
-    .service-image {
+    img.service-image {
         height: 220px !important;
     }
 
     .step-image img {
         height: 180px !important;
     }
+
+    /* Règle spécifique pour les 4 blocs de feature */
+    .features-grid .feature-card .feature-image,
+    .features-grid .feature-card .feature-image img {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        height: 180px !important;
+        min-height: 180px !important;
+    }
+
+    /* Forcer l'affichage de TOUTES les images dans les feature-cards */
+    .feature-card div.feature-image,
+    .feature-card div.feature-image img {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        width: 100% !important;
+        height: 180px !important;
+        min-height: 180px !important;
+        max-height: 180px !important;
+    }
 }
 
 @media (max-width: 480px) {
+    .feature-image {
+        height: 160px !important;
+        min-height: 160px !important;
+        background: var(--bg-light) !important;
+    }
+
     .feature-image img {
         height: 160px !important;
+        min-height: 160px !important;
+        width: 100% !important;
     }
 
     .service-image-wrapper img,
-    .service-image {
+    img.service-image {
         height: 200px !important;
     }
 
     .step-image img {
         height: 150px !important;
+    }
+
+    /* Règle spécifique pour les 4 blocs de feature sur très petits écrans */
+    .features-grid .feature-card .feature-image,
+    .features-grid .feature-card .feature-image img {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        height: 160px !important;
+        min-height: 160px !important;
+        width: 100% !important;
+    }
+
+    /* Forcer l'affichage de TOUTES les images dans les feature-cards sur très petits écrans */
+    .feature-card div.feature-image,
+    .feature-card div.feature-image img {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        width: 100% !important;
+        height: 160px !important;
+        min-height: 160px !important;
+        max-height: 160px !important;
     }
 }
 
@@ -551,6 +617,13 @@ img[loading="lazy"].loaded {
     flex-wrap: wrap;
 }
 
+/* Masquer les boutons sur petits et moyens écrans */
+@media (max-width: 1024px) {
+    .hero-buttons {
+        display: none;
+    }
+}
+
 .hero-image {
     display: flex;
     justify-content: center;
@@ -826,19 +899,38 @@ img[loading="lazy"].loaded {
     overflow: hidden;
     width: 100%;
     height: 250px;
+    min-height: 250px;
     border-radius: 24px 24px 0 0;
     position: relative;
     background: var(--bg-light);
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 .feature-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 250px;
+    object-fit: cover !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
     border-radius: 24px 24px 0 0;
     transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     will-change: transform;
+}
+
+/* Règle globale pour forcer l'affichage des images de feature - PRIORITÉ MAXIMALE */
+.features .feature-card .feature-image,
+.features .feature-card .feature-image img,
+.features-grid .feature-card .feature-image,
+.features-grid .feature-card .feature-image img,
+.feature-card div.feature-image,
+.feature-card div.feature-image img {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 .feature-card:hover .feature-image img {
@@ -1414,28 +1506,44 @@ img[loading="lazy"].loaded {
     width: 100%;
     max-width: 100%;
     height: 250px;
+    min-height: 250px;
     overflow: hidden;
     position: relative;
     background: var(--bg-light);
     display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 .service-image-wrapper img,
-.service-image {
-    width: 100%;
-    max-width: 100%;
-    height: 100%;
-    object-fit: cover;
+img.service-image {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    min-height: 250px;
+    object-fit: cover !important;
     transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     border-radius: 24px 24px 0 0;
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
     will-change: transform;
+    background: var(--bg-light);
+}
+
+/* Forcer l'affichage de la première image de service */
+.service-card-large:first-child .service-image-wrapper,
+.service-card-large:first-child .service-image-wrapper img,
+.service-card-large:first-child img.service-image {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    height: 250px !important;
+    min-height: 250px !important;
 }
 
 .service-card-large:hover .service-image-wrapper img,
-.service-card-large:hover .service-image {
+.service-card-large:hover img.service-image {
     transform: scale(1.12);
 }
 
@@ -1924,6 +2032,20 @@ img[loading="lazy"].loaded {
 
     .feature-image {
         height: 200px;
+        min-height: 200px;
+        display: block !important;
+        visibility: visible !important;
+        background: var(--bg-light);
+    }
+
+    .feature-image img {
+        width: 100% !important;
+        height: 100% !important;
+        min-height: 200px;
+        object-fit: cover !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
     
     .service-image-wrapper {
@@ -2062,9 +2184,7 @@ img[loading="lazy"].loaded {
     }
 
     .hero-buttons {
-        flex-direction: row;
-        gap: 1rem;
-        flex-wrap: wrap;
+        display: none;
     }
 
     .hero-main-image {
@@ -2103,16 +2223,31 @@ img[loading="lazy"].loaded {
     }
 
     .feature-image {
-        height: 180px;
-        width: 100%;
+        height: 180px !important;
+        min-height: 180px !important;
+        width: 100% !important;
         display: block !important;
         visibility: visible !important;
+        opacity: 1 !important;
+        background: var(--bg-light);
+        position: relative;
     }
 
     .feature-image img {
         width: 100% !important;
         height: 100% !important;
+        min-height: 180px !important;
         object-fit: cover !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Forcer l'affichage de toutes les images de feature */
+    .feature-card .feature-image,
+    .feature-card .feature-image img {
         display: block !important;
         visibility: visible !important;
         opacity: 1 !important;
@@ -2143,10 +2278,11 @@ img[loading="lazy"].loaded {
         height: 220px;
         display: block !important;
         visibility: visible !important;
+        background: var(--bg-light);
     }
 
     .service-image-wrapper img,
-    .service-image {
+    img.service-image {
         width: 100% !important;
         height: 100% !important;
         object-fit: cover !important;
@@ -2322,9 +2458,7 @@ img[loading="lazy"].loaded {
     }
 
     .hero-buttons {
-        flex-direction: row;
-        gap: 0.75rem;
-        flex-wrap: wrap;
+        display: none;
     }
 
     .btn {
@@ -2383,19 +2517,53 @@ img[loading="lazy"].loaded {
     }
 
     .feature-image {
-        height: 160px;
-        width: 100%;
+        height: 160px !important;
+        min-height: 160px !important;
+        width: 100% !important;
         display: block !important;
         visibility: visible !important;
+        opacity: 1 !important;
+        background: var(--bg-light);
+        position: relative;
     }
 
     .feature-image img {
         width: 100% !important;
         height: 100% !important;
+        min-height: 160px !important;
         object-fit: cover !important;
         display: block !important;
         visibility: visible !important;
         opacity: 1 !important;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Forcer l'affichage de toutes les images de feature sur très petits écrans */
+    .feature-card .feature-image,
+    .feature-card .feature-image img {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        height: 160px !important;
+        min-height: 160px !important;
+        width: 100% !important;
+    }
+
+    /* Règle ULTRA-SPÉCIFIQUE pour forcer l'affichage des 4 images de feature */
+    .features .features-grid .feature-card .feature-image,
+    .features .features-grid .feature-card .feature-image img,
+    .features-grid .feature-card div.feature-image,
+    .features-grid .feature-card div.feature-image img,
+    section.features .feature-card .feature-image,
+    section.features .feature-card .feature-image img {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        height: 160px !important;
+        min-height: 160px !important;
+        width: 100% !important;
+        max-width: 100% !important;
     }
 
     .feature-card h3 {
@@ -2475,10 +2643,11 @@ img[loading="lazy"].loaded {
         height: 200px;
         display: block !important;
         visibility: visible !important;
+        background: var(--bg-light);
     }
 
     .service-image-wrapper img,
-    .service-image {
+    img.service-image {
         width: 100% !important;
         height: 100% !important;
         object-fit: cover !important;
@@ -2893,5 +3062,43 @@ img[loading="lazy"].loaded {
     transform: translateZ(0);
     backface-visibility: hidden;
     perspective: 1000px;
+}
+
+/* ===== RÈGLE GLOBALE POUR FORCER L'AFFICHAGE DES IMAGES DE FEATURE ===== */
+/* Cette règle s'applique à TOUS les écrans pour garantir l'affichage */
+.features .feature-card .feature-image,
+.features .feature-card .feature-image img,
+.features-grid .feature-card .feature-image,
+.features-grid .feature-card .feature-image img,
+.feature-card div.feature-image,
+.feature-card div.feature-image img,
+section.features .feature-card .feature-image,
+section.features .feature-card .feature-image img {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Sur petits écrans - FORCER LES DIMENSIONS */
+@media (max-width: 768px) {
+    .features .feature-card .feature-image,
+    .features .feature-card .feature-image img,
+    .features-grid .feature-card .feature-image,
+    .features-grid .feature-card .feature-image img {
+        height: 180px !important;
+        min-height: 180px !important;
+        width: 100% !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .features .feature-card .feature-image,
+    .features .feature-card .feature-image img,
+    .features-grid .feature-card .feature-image,
+    .features-grid .feature-card .feature-image img {
+        height: 160px !important;
+        min-height: 160px !important;
+        width: 100% !important;
+    }
 }
 
