@@ -83,14 +83,88 @@ img[loading="lazy"].loaded {
     opacity: 1;
 }
 
-/* Images dans les cards */
+/* Images dans les cards - FORCER L'AFFICHAGE */
 .feature-image img,
 .service-image,
 .step-image img,
-.about-image img {
+.about-image img,
+.hero-main-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Conteneurs d'images - FORCER LES DIMENSIONS */
+.feature-image,
+.service-image-wrapper,
+.step-image {
+    display: block !important;
+    visibility: visible !important;
+    position: relative;
+    background: var(--bg-light);
+}
+
+/* Sur petits écrans - FORCER L'AFFICHAGE */
+@media (max-width: 768px) {
+    /* Forcer l'affichage de tous les conteneurs d'images */
+    .feature-image,
+    .service-image-wrapper,
+    .step-image,
+    .hero-image {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        position: relative !important;
+    }
+
+    /* Forcer l'affichage de toutes les images */
+    .feature-image img,
+    .service-image-wrapper img,
+    .service-image,
+    .step-image img,
+    .hero-main-image,
+    img[class*="image"],
+    img[alt] {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        object-fit: cover !important;
+    }
+
+    /* Images avec hauteur fixe */
+    .feature-image img {
+        height: 180px !important;
+    }
+
+    .service-image-wrapper img,
+    .service-image {
+        height: 220px !important;
+    }
+
+    .step-image img {
+        height: 180px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .feature-image img {
+        height: 160px !important;
+    }
+
+    .service-image-wrapper img,
+    .service-image {
+        height: 200px !important;
+    }
+
+    .step-image img {
+        height: 150px !important;
+    }
 }
 
 .container {
@@ -750,20 +824,24 @@ img[loading="lazy"].loaded {
 
 .feature-card .feature-image {
     overflow: hidden;
+    width: 100%;
+    height: 250px;
+    border-radius: 24px 24px 0 0;
+    position: relative;
+    background: var(--bg-light);
 }
 
-.feature-image {
+.feature-image img {
     width: 100%;
-    max-width: 100%;
-    height: 250px;
+    height: 100%;
     object-fit: cover;
+    display: block;
     border-radius: 24px 24px 0 0;
     transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    display: block;
     will-change: transform;
 }
 
-.feature-card:hover .feature-image {
+.feature-card:hover .feature-image img {
     transform: scale(1.12);
 }
 
@@ -916,17 +994,31 @@ img[loading="lazy"].loaded {
     width: 100%;
     max-width: 200px;
     height: 200px;
-    object-fit: cover;
-    border-radius: 15px;
     margin: 0 auto 1.5rem;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+    background: var(--bg-light);
     box-shadow: var(--shadow-lg);
     transition: var(--transition);
     display: block;
 }
 
+.step-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 15px;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .step:hover .step-image {
-    transform: scale(1.08) translateY(-5px);
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+}
+
+.step:hover .step-image img {
+    transform: scale(1.08) translateY(-5px);
 }
 
 .step-number {
@@ -1324,8 +1416,11 @@ img[loading="lazy"].loaded {
     height: 250px;
     overflow: hidden;
     position: relative;
+    background: var(--bg-light);
+    display: block !important;
 }
 
+.service-image-wrapper img,
 .service-image {
     width: 100%;
     max-width: 100%;
@@ -1333,10 +1428,13 @@ img[loading="lazy"].loaded {
     object-fit: cover;
     transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     border-radius: 24px 24px 0 0;
-    display: block;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
     will-change: transform;
 }
 
+.service-card-large:hover .service-image-wrapper img,
 .service-card-large:hover .service-image {
     transform: scale(1.12);
 }
@@ -1835,6 +1933,14 @@ img[loading="lazy"].loaded {
     .step-image {
         max-width: 150px;
         height: 150px;
+        width: 100%;
+    }
+
+    .step-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
     }
 
     .process-steps {
@@ -1999,7 +2105,17 @@ img[loading="lazy"].loaded {
     .feature-image {
         height: 180px;
         width: 100%;
-        object-fit: cover;
+        display: block !important;
+        visibility: visible !important;
+    }
+
+    .feature-image img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
 
     .feature-card h3 {
@@ -2025,12 +2141,18 @@ img[loading="lazy"].loaded {
 
     .service-image-wrapper {
         height: 220px;
+        display: block !important;
+        visibility: visible !important;
     }
 
+    .service-image-wrapper img,
     .service-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
 
     /* Stats - Garder 2 colonnes */
@@ -2066,7 +2188,17 @@ img[loading="lazy"].loaded {
         max-width: 180px;
         height: 180px;
         width: 100%;
-        object-fit: cover;
+        display: block !important;
+        visibility: visible !important;
+    }
+
+    .step-image img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
 
     /* Contact */
@@ -2209,13 +2341,16 @@ img[loading="lazy"].loaded {
     }
 
     .hero-main-image {
-        max-width: 100%;
-        width: 100%;
-        height: auto;
+        max-width: 100% !important;
+        width: 100% !important;
+        height: auto !important;
         max-height: 350px;
         min-height: 250px;
-        object-fit: cover;
+        object-fit: cover !important;
         border-radius: 16px;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
 
     /* Sections */
@@ -2250,7 +2385,17 @@ img[loading="lazy"].loaded {
     .feature-image {
         height: 160px;
         width: 100%;
-        object-fit: cover;
+        display: block !important;
+        visibility: visible !important;
+    }
+
+    .feature-image img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
 
     .feature-card h3 {
@@ -2297,7 +2442,13 @@ img[loading="lazy"].loaded {
         max-width: 150px;
         height: 150px;
         width: 100%;
+    }
+
+    .step-image img {
+        width: 100%;
+        height: 100%;
         object-fit: cover;
+        display: block;
     }
 
     .step-number {
@@ -2322,12 +2473,18 @@ img[loading="lazy"].loaded {
 
     .service-image-wrapper {
         height: 200px;
+        display: block !important;
+        visibility: visible !important;
     }
 
+    .service-image-wrapper img,
     .service-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
 
     .service-card-large-content {
