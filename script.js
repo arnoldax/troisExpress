@@ -4,37 +4,28 @@ const navMenu = document.getElementById('navMenu');
 const navbar = document.getElementById('navbar');
 const navLinks = document.querySelectorAll('.nav-link');
 
-// Toggle mobile menu with 3D effect
+// Toggle mobile menu - design moderne
 if (hamburger) {
     hamburger.addEventListener('click', () => {
         hamburger.classList.toggle('active');
         navMenu.classList.toggle('active');
         
-        // Add 3D rotation effect
+        // Empêcher le scroll du body quand le menu est ouvert
         if (navMenu.classList.contains('active')) {
-            navMenu.style.transform = 'rotateX(0deg)';
+            document.body.style.overflow = 'hidden';
         } else {
-            navMenu.style.transform = 'rotateX(-90deg)';
+            document.body.style.overflow = '';
         }
     });
 }
 
 // Close mobile menu when clicking on a link
-navLinks.forEach((link, index) => {
+navLinks.forEach((link) => {
     link.addEventListener('click', () => {
-        hamburger.classList.remove('active');
-        navMenu.classList.remove('active');
-        navMenu.style.transform = 'rotateX(-90deg)';
-    });
-    
-    // Add 3D hover effect for desktop
-    link.addEventListener('mouseenter', function() {
-        this.style.transform = 'translateY(-3px) translateZ(20px)';
-    });
-    
-    link.addEventListener('mouseleave', function() {
-        if (!this.classList.contains('active')) {
-            this.style.transform = 'translateY(0) translateZ(0)';
+        if (window.innerWidth <= 768) {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+            document.body.style.overflow = '';
         }
     });
 });
@@ -43,14 +34,14 @@ navLinks.forEach((link, index) => {
 window.addEventListener('scroll', () => {
     if (window.scrollY > 50) {
         navbar.classList.add('scrolled');
-        navbar.style.transform = 'translateY(0) scale(1)';
+        navbar.style.transform = 'translateY(0) translateZ(0)';
     } else {
         navbar.classList.remove('scrolled');
-        navbar.style.transform = 'translateY(0) scale(1)';
+        navbar.style.transform = 'translateY(0) translateZ(0)';
     }
 });
 
-// Add 3D effect on logo hover
+// Add 3D effect on logo hover avec effet parallaxe
 const logo = document.querySelector('.logo');
 if (logo) {
     logo.addEventListener('mousemove', (e) => {
@@ -59,14 +50,25 @@ if (logo) {
         const y = e.clientY - rect.top;
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
-        const rotateX = (y - centerY) / 10;
-        const rotateY = (centerX - x) / 10;
+        const rotateX = (y - centerY) / 15;
+        const rotateY = (centerX - x) / 15;
+        const translateZ = Math.abs(rotateX) + Math.abs(rotateY);
         
-        logo.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+        logo.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(${translateZ}px) scale(1.05)`;
+        
+        // Effet 3D sur l'image du logo
+        const logoImg = logo.querySelector('.logo-img');
+        if (logoImg) {
+            logoImg.style.transform = `scale(1.15) translateZ(${translateZ + 20}px) rotateY(${rotateY * 1.5}deg)`;
+        }
     });
     
     logo.addEventListener('mouseleave', () => {
-        logo.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+        logo.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0) scale(1)';
+        const logoImg = logo.querySelector('.logo-img');
+        if (logoImg) {
+            logoImg.style.transform = 'scale(1) translateZ(0) rotateY(0deg)';
+        }
     });
 }
 
@@ -191,7 +193,7 @@ const observeElements = () => {
     });
 };
 
-// ===== FORM HANDLING =====
+// ===== FORM HANDLING (SÉCURISÉ) =====
 const contactForm = document.getElementById('contactForm');
 const formMessage = document.getElementById('formMessage');
 
@@ -199,16 +201,62 @@ if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
-        // Get form values
-        const formData = new FormData(contactForm);
-        const data = Object.fromEntries(formData);
+        // Vérifier si security.js est chargé
+        if (typeof rateLimiter === 'undefined' || typeof secureFormSubmission === 'undefined') {
+            console.error('security.js doit être chargé avant script.js');
+            formMessage.textContent = 'Erreur de sécurité. Veuillez recharger la page.';
+            formMessage.className = 'form-message error';
+            return;
+        }
         
-        // Simulate form submission
+        // Vérifier le rate limiting
+        const userIP = 'user_' + (navigator.userAgent + window.location.href).substring(0, 50);
+        const rateLimit = rateLimiter.checkLimit(userIP, 5, 60000); // 5 tentatives par minute
+        
+        if (!rateLimit.allowed) {
+            const resetTime = new Date(rateLimit.resetTime);
+            formMessage.textContent = `Trop de tentatives. Veuillez réessayer après ${resetTime.toLocaleTimeString()}.`;
+            formMessage.className = 'form-message error';
+            if (typeof securityLogger !== 'undefined') {
+                securityLogger.log('rate_limit_exceeded', { userIP, resetTime });
+            }
+            return;
+        }
+        
+        // Valider et sécuriser les données du formulaire
+        const validation = secureFormSubmission(contactForm);
+        
+        if (!validation.valid) {
+            formMessage.textContent = 'Erreurs de validation : ' + validation.errors.join(', ');
+            formMessage.className = 'form-message error';
+            if (typeof securityLogger !== 'undefined') {
+                securityLogger.log('form_validation_failed', { errors: validation.errors });
+            }
+            return;
+        }
+        
+        // Afficher le message de succès
         formMessage.textContent = 'Merci pour votre message ! Nous vous répondrons dans les plus brefs délais.';
         formMessage.className = 'form-message success';
         
+        // Log de la soumission réussie
+        if (typeof securityLogger !== 'undefined') {
+            securityLogger.log('form_submission_success', { 
+                subject: validation.data.subject,
+                hasPhone: !!validation.data.phone 
+            });
+        }
+        
         // Reset form
         contactForm.reset();
+        
+        // Réinitialiser le token CSRF
+        if (typeof getOrCreateCSRFToken !== 'undefined') {
+            const csrfInput = contactForm.querySelector('input[name="csrf_token"]');
+            if (csrfInput) {
+                csrfInput.value = getOrCreateCSRFToken();
+            }
+        }
         
         // Hide message after 5 seconds
         setTimeout(() => {
@@ -216,8 +264,14 @@ if (contactForm) {
             formMessage.textContent = '';
         }, 5000);
         
-        // In a real application, you would send the data to a server here
-        console.log('Form data:', data);
+        // En production, envoyer les données sécurisées au serveur
+        // fetch('/api/contact', {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify(validation.data)
+        // });
+        
+        console.log('Form data sécurisé:', validation.data);
     });
 }
 
@@ -262,6 +316,11 @@ document.addEventListener('DOMContentLoaded', () => {
             link.classList.add('active');
         }
     });
+    
+    // Initialiser la sécurité (si security.js est chargé)
+    if (typeof initSecurity === 'function') {
+        initSecurity();
+    }
 });
 
 // ===== BUTTON RIPPLE EFFECT =====

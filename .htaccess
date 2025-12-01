@@ -1,0 +1,92 @@
+# ===== SÉCURITÉ SERVEUR - 3TroisExperts =====
+
+# Activer le moteur de réécriture
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Forcer HTTPS (décommentez si vous avez SSL)
+    # RewriteCond %{HTTPS} off
+    # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+    
+    # Bloquer l'accès aux fichiers sensibles
+    RewriteRule ^(.*/)?\.git/ - [F,L]
+    RewriteRule ^(.*/)?\.env - [F,L]
+    RewriteRule ^(.*/)?\.htaccess$ - [F,L]
+    RewriteRule ^(.*/)?security_logs - [F,L]
+</IfModule>
+
+# En-têtes de sécurité HTTP
+<IfModule mod_headers.c>
+    # Protection XSS
+    Header set X-XSS-Protection "1; mode=block"
+    
+    # Empêcher le MIME sniffing
+    Header set X-Content-Type-Options "nosniff"
+    
+    # Protection contre le clickjacking
+    Header set X-Frame-Options "DENY"
+    
+    # Politique de référent
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # Content Security Policy
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none';"
+    
+    # Permissions Policy
+    Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+    
+    # Strict Transport Security (HTTPS uniquement - décommentez si SSL)
+    # Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+</IfModule>
+
+# Désactiver la liste des répertoires
+Options -Indexes
+
+# Bloquer l'accès aux fichiers sensibles
+<FilesMatch "\.(htaccess|htpasswd|ini|log|sh|sql|env)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Protéger les fichiers de configuration
+<FilesMatch "^(\.git|\.env|security\.js|package\.json)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Désactiver l'exécution de scripts dans les répertoires d'upload
+<DirectoryMatch "^.*/uploads/">
+    php_flag engine off
+    RemoveHandler .php .phtml .php3 .php4 .php5 .pl .py .jsp .asp .sh .cgi
+</DirectoryMatch>
+
+# Limiter les types MIME
+<IfModule mod_mime.c>
+    AddType application/javascript .js
+    AddType text/css .css
+    AddType image/svg+xml .svg
+</IfModule>
+
+# Compression et cache
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript
+</IfModule>
+
+# Protection contre les attaques de force brute
+<IfModule mod_evasive.c>
+    DOSHashTableSize    2048
+    DOSPageCount        10
+    DOSSiteCount        50
+    DOSPageInterval     1
+    DOSSiteInterval     1
+    DOSBlockingPeriod   600
+</IfModule>
+
+# Limiter la taille des uploads
+php_value upload_max_filesize 10M
+php_value post_max_size 10M
+
+# Désactiver l'affichage des erreurs PHP en production
+php_flag display_errors Off
+php_flag log_errors On
+

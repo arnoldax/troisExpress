@@ -1,0 +1,12 @@
+# Robots.txt pour 3TroisExperts
+User-agent: *
+Allow: /
+Disallow: /images/
+Disallow: /*.js$
+Disallow: /*.css$
+Disallow: /.htaccess
+Disallow: /security.js
+
+# Sitemap (ajoutez votre URL de sitemap)
+# Sitemap: https://votre-site.com/sitemap.xml
+
